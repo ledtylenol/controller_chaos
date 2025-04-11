@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://df8p784rq71f"]
+
+[ext_resource type="Script" uid="uid://bigcesetvp1rw" path="res://entities/pentagon/pentagon.gd" id="1_8wh1s"]
+[ext_resource type="Texture2D" uid="uid://2581qjdt83hn" path="res://entities/pentagon/pentagon.png" id="2_ixoeo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ixoeo"]
+font_size = 50
+
+[node name="Pentagon" type="CharacterBody2D" node_paths=PackedStringArray("hit_poly", "hurt_poly")]
+collision_mask = 2
+script = ExtResource("1_8wh1s")
+hit_poly = NodePath("CollisionPolygon2D")
+hurt_poly = NodePath("CollisionPolygon2D2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ixoeo")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1, -47, 52, 1, -3, 47)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1, -48, -52, -28, -51, 28, -3, 49)
+
+[node name="Label" type="Label" parent="."]
+top_level = true
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_ixoeo")

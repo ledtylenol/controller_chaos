@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://0dhi8fg2632o"]
+
+[ext_resource type="Script" uid="uid://bim6dr62vnaix" path="res://entities/player/player.gd" id="1_4flbx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+
+[node name="Player" type="Camera2D"]
+script = ExtResource("1_4flbx")
+max_power = 5000.0
+
+[node name="SelectArea" type="Area2D" parent="."]
+top_level = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+show_behind_parent = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2500.0
+offset_top = -2500.0
+offset_right = 2500.0
+offset_bottom = 2500.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://jp0ktmtff6mc"]
+
+[ext_resource type="Script" uid="uid://bgjmfr3xdkgvk" path="res://world.gd" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://0dhi8fg2632o" path="res://player.tscn" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://dcf5qgfpcro4s" path="res://entities/triangle/triangle.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://df8p784rq71f" path="res://entities/pentagon/pentagon.tscn" id="4_aqk2v"]
+
+[sub_resource type="Environment" id="Environment_tlwt5"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_f3sb7")
+
+[node name="Player" parent="." instance=ExtResource("2_fj7yv")]
+
+[node name="Triangle" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(668, 0)
+
+[node name="Triangle2" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(420, 134)
+
+[node name="Triangle3" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(675, 318)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_tlwt5")
+
+[node name="Pentagon" parent="." instance=ExtResource("4_aqk2v")]
+position = Vector2(184, 382)
