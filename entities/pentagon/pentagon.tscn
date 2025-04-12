@@ -1,7 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://df8p784rq71f"]
+[gd_scene load_steps=9 format=3 uid="uid://df8p784rq71f"]
 
 [ext_resource type="Script" uid="uid://bigcesetvp1rw" path="res://entities/pentagon/pentagon.gd" id="1_8wh1s"]
 [ext_resource type="Texture2D" uid="uid://2581qjdt83hn" path="res://entities/pentagon/pentagon.png" id="2_ixoeo"]
+[ext_resource type="Texture2D" uid="uid://e8xu8afj28eq" path="res://entities/pentagon/p_body.png" id="3_mlgr3"]
+[ext_resource type="Script" uid="uid://cadmaxbp5r1sa" path="res://animated_sprite.gd" id="4_1r48h"]
+[ext_resource type="Texture2D" uid="uid://25ovoy0yofg1" path="res://entities/pentagon/p_face2.png" id="4_gsxhc"]
+[ext_resource type="Texture2D" uid="uid://com3pjwwrlpag" path="res://entities/pentagon/p_whisker2.png" id="6_47vyl"]
+[ext_resource type="Texture2D" uid="uid://do8jps085d8d8" path="res://entities/pentagon/p_ear.png" id="7_caqaw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ixoeo"]
 font_size = 50
@@ -26,3 +31,41 @@ top_level = true
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_ixoeo")
+
+[node name="newsprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_mlgr3")
+
+[node name="Face" type="Sprite2D" parent="newsprite" node_paths=PackedStringArray("rest_position")]
+texture = ExtResource("4_gsxhc")
+hframes = 5
+script = ExtResource("4_1r48h")
+rest_position = NodePath("../FaceRestPosition")
+metadata/_custom_type_script = "uid://cadmaxbp5r1sa"
+
+[node name="Whisker" type="Sprite2D" parent="newsprite" node_paths=PackedStringArray("rest_position")]
+texture = ExtResource("6_47vyl")
+script = ExtResource("4_1r48h")
+rest_position = NodePath("../WhiskerRestPosition")
+metadata/_custom_type_script = "uid://cadmaxbp5r1sa"
+
+[node name="EarLeft" type="Sprite2D" parent="newsprite" node_paths=PackedStringArray("rest_position")]
+texture = ExtResource("7_caqaw")
+script = ExtResource("4_1r48h")
+rest_position = NodePath("../EarLeftRestPosition")
+metadata/_custom_type_script = "uid://cadmaxbp5r1sa"
+
+[node name="EarRight" type="Sprite2D" parent="newsprite" node_paths=PackedStringArray("rest_position")]
+texture = ExtResource("7_caqaw")
+script = ExtResource("4_1r48h")
+rest_position = NodePath("../EarRightRestPosition")
+metadata/_custom_type_script = "uid://cadmaxbp5r1sa"
+
+[node name="FaceRestPosition" type="Marker2D" parent="newsprite"]
+
+[node name="WhiskerRestPosition" type="Marker2D" parent="newsprite"]
+
+[node name="EarRightRestPosition" type="Marker2D" parent="newsprite"]
+position = Vector2(44, 40)
+
+[node name="EarLeftRestPosition" type="Marker2D" parent="newsprite"]
+position = Vector2(44, -40)
