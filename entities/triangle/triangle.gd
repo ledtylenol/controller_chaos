@@ -73,4 +73,14 @@ func tween_select() -> void:
 	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(sprite, "modulate", Color.AQUAMARINE, .4)
 func hit(w: Entity, _shape: Node2D, _hv) -> void:
+	health -= w.damage
+
+func set_health(new: float) -> void:
+	health = new
+	if health < 0.0:
+		erased.emit(self)
+		if not selected:
+			die()
+
+func die() -> void:
 	queue_free()

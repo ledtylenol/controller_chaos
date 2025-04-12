@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3bl4imum6umt"]
+
+[ext_resource type="Script" uid="uid://lwgxo5dq8r4l" path="res://entities/spawner/kite.gd" id="1_phkmf"]
+[ext_resource type="Texture2D" uid="uid://bj3tu4rngpukx" path="res://entities/spawner/kite.png" id="2_11wnc"]
+
+[node name="Kite" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_phkmf")
+rot_coeff = 5.0
+metadata/_custom_type_script = "uid://bwjvl0thx0c2i"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_11wnc")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(40, -1, -5, -28, -33, 2, -11, 26)
