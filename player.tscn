@@ -1,8 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://0dhi8fg2632o"]
+[gd_scene load_steps=4 format=3 uid="uid://0dhi8fg2632o"]
 
 [ext_resource type="Script" uid="uid://bim6dr62vnaix" path="res://entities/player/player.gd" id="1_4flbx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
+radius = 32.46
 
 [node name="Player" type="Camera2D"]
 script = ExtResource("1_4flbx")
@@ -28,3 +31,8 @@ offset_bottom = 2500.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="TargetArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TargetArea"]
+shape = SubResource("CircleShape2D_4flbx")

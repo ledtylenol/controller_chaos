@@ -2,8 +2,12 @@ extends Entity
 class_name Triangle
 var tween: Tween
 var size := 10.0
+@export var shaker_curve: Curve
+
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var detection_area: Area2D = $DetectionArea
+@onready var sprite_shake: ShakerComponent2D = $Sprite2D/SpriteShake
 
 @onready var label: Label = $Label
 class Collision extends RefCounted:
@@ -31,9 +35,16 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 10.0:
 		rotation = lerp_angle(rotation, velocity.angle(), 1.0 - exp(-delta * 5))
 	velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
+	sprite_shake.intensity = shaker_curve.sample(velocity.length())
 	var subdelt := delta / 5
 	var hit_cols = []
+	var avoidance_positions = detection_area.get_overlapping_areas().map(func(x): return x.global_position)
 	for _i in 5:
+		var away_dist = Vector2.ZERO
+		for p in avoidance_positions:
+			away_dist += p.direction_to(global_position)
+			away_dist *= 0.5
+		velocity = velocity.slerp((velocity.normalized() + away_dist).normalized() * velocity.length(), 1.0 - exp(-subdelt * 5))
 		var col := move_and_collide(velocity * subdelt)
 		if col:
 			var collider = col.get_collider()
@@ -45,7 +56,7 @@ func _physics_process(delta: float) -> void:
 				if not collider in hit_cols.map(func(c): return c.collider):
 					print(col.get_collider_shape())
 					hit_cols.push_back(Collision.new(collider, col.get_collider_shape(), old_vel))
-
+	
 	
 	for ent in hit_cols:
 		ent.collider.hit(self, ent.shape, ent.hit_vel)

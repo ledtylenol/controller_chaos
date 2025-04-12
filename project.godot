@@ -15,6 +15,21 @@ run/main_scene="uid://jp0ktmtff6mc"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Shaker="*res://addons/shaker/src/Shaker.gd"
+Global="*res://global/global.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/shaker/plugin.cfg")
+
 [global_group]
 
 "Selected Triangle"=""
@@ -64,6 +79,7 @@ down={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

@@ -30,7 +30,7 @@ func hit(who: Entity, shape: Node2D, hit_vel :Vector2):
 				var t = TRIANGLE.instantiate()
 				t.transform = global_transform
 				t.velocity = velocity.rotated(rot) 
-				get_tree().current_scene.add_child(t)
+				Global.game.add_world_child(t)
 				prints(rot, t)
 				rot += PI
 			queue_free()

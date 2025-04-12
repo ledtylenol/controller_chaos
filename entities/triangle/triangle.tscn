@@ -1,7 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://dcf5qgfpcro4s"]
+[gd_scene load_steps=17 format=3 uid="uid://dcf5qgfpcro4s"]
 
 [ext_resource type="Script" uid="uid://caorr1wm1p1fe" path="res://entities/triangle/triangle.gd" id="1_7sjka"]
 [ext_resource type="Texture2D" uid="uid://debqflj6lx77t" path="res://entities/triangle/triangle.png" id="2_nptun"]
+[ext_resource type="Script" uid="uid://o6u6b700qb7o" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_gk3dd"]
+[ext_resource type="Script" uid="uid://cct0c3f2k6lwu" path="res://addons/shaker/data/Vector2/BaseShakerType2D.gd" id="4_2y417"]
+[ext_resource type="Script" uid="uid://br152yebojmh3" path="res://addons/shaker/data/Vector2/ShakerTypeNoiseShake2D.gd" id="5_2y417"]
+[ext_resource type="Script" uid="uid://cf2dgnapwlytw" path="res://addons/shaker/data/Single/BaseShakerType1D.gd" id="6_05mn6"]
+[ext_resource type="Script" uid="uid://c5xmjpfeffbu8" path="res://addons/shaker/data/Vector2/ShakerPreset2D.gd" id="7_6xpdq"]
+
+[sub_resource type="Curve" id="Curve_gk3dd"]
+_limits = [0.0, 1.0, 0.0, 5000.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5000, 1), 0.00036131, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_7sjka"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -11,12 +21,47 @@ gradient = SubResource("Gradient_7sjka")
 fill = 1
 fill_from = Vector2(0.472477, 0.5)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m7vth"]
+seed = 195
+frequency = 0.0037
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_05mn6"]
+seamless = true
+noise = SubResource("FastNoiseLite_m7vth")
+
+[sub_resource type="Resource" id="Resource_6xpdq"]
+script = ExtResource("5_2y417")
+noise_texture = SubResource("NoiseTexture2D_05mn6")
+amplitude = Vector2(50, 50)
+offset = Vector2(0, 0)
+BlendingMode = 0
+fade_in = 0.0
+fade_out = 0.0
+start_percent = 0.0
+end_percent = 1.0
+_temp_graph = false
+bake_internal = 64
+metadata/_custom_type_script = "uid://br152yebojmh3"
+
+[sub_resource type="Resource" id="Resource_j1mp6"]
+script = ExtResource("7_6xpdq")
+PositionShake = Array[ExtResource("4_2y417")]([SubResource("Resource_6xpdq")])
+RotationShake = Array[ExtResource("6_05mn6")]([])
+ScaleShake = Array[ExtResource("4_2y417")]([])
+bake_internal = 64
+__follow_timeline = false
+metadata/_custom_type_script = "uid://c5xmjpfeffbu8"
+
 [sub_resource type="LabelSettings" id="LabelSettings_nptun"]
 font_size = 100
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nptun"]
+radius = 63.1269
 
 [node name="Triangle" type="CharacterBody2D" groups=["Selected Triangle"]]
 collision_layer = 2
 script = ExtResource("1_7sjka")
+shaker_curve = SubResource("Curve_gk3dd")
 metadata/_custom_type_script = "uid://caorr1wm1p1fe"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
@@ -25,7 +70,14 @@ texture = SubResource("GradientTexture2D_nptun")
 texture_scale = 7.19
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.65974, 0.00119781)
 texture = ExtResource("2_nptun")
+
+[node name="SpriteShake" type="Node2D" parent="Sprite2D"]
+script = ExtResource("3_gk3dd")
+AutoPlay = true
+shakerPreset = SubResource("Resource_j1mp6")
+metadata/_custom_type_script = "uid://o6u6b700qb7o"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 visible = false
@@ -36,3 +88,10 @@ top_level = true
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_nptun")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_nptun")
