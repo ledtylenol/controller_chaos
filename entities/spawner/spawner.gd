@@ -21,7 +21,6 @@ func _ready() -> void:
 	detection_area.area_exited.connect(on_exit)
 func _physics_process(delta: float) -> void:
 	var p = Global.game.player
-	var queue = []
 	if not targets.is_empty():
 		rot_target = TAU * 3.883
 		shake.intensity = 1.0

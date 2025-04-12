@@ -61,7 +61,7 @@ func tween_color(new: Color, duration: float) -> void:
 	ct = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
 	ct.tween_property(sprite, "modulate", new, duration)
 
-func on_erase(who: Entity) -> void:
+func on_erase(_who: Entity) -> void:
 	go = false
 	time_alive = 0.0
 	tween_color(Color.WHITE, 0.5)

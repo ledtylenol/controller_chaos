@@ -84,7 +84,7 @@ func _draw() -> void:
 
 	if not selected_entities.is_empty():
 		draw_circle(homing_point, 10, Color.RED)
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	queue_redraw()
 func _input(event: InputEvent) -> void:
