@@ -9,7 +9,12 @@ var size := 10.0
 @onready var detection_area: Area2D = $DetectionArea
 @onready var sprite_shake: ShakerComponent2D = $Sprite2D/SpriteShake
 
-@onready var label: Label = $Label
+var moving := false:
+	set(value):
+		if value != moving:
+			if value: tween_select()
+			else: tween_deselect()
+		moving = value
 class Collision extends RefCounted:
 	func _init(_c: Entity, _s: Node2D, h_v: Vector2) -> void:
 		collider = _c
@@ -29,12 +34,11 @@ var selected := false:
 func _ready() -> void:
 	tween_deselect()
 func _physics_process(delta: float) -> void:
-	label.text = "%.2f" % velocity.length()
-	label.rotation = 0
-	label.position = position
+
 	if velocity.length() > 10.0:
 		rotation = lerp_angle(rotation, velocity.angle(), 1.0 - exp(-delta * 5))
-	velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
+	if not moving:
+		velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
 	sprite_shake.intensity = shaker_curve.sample(velocity.length())
 	var subdelt := delta / 5
 	var hit_cols = []
@@ -67,7 +71,7 @@ func push(d: Vector2) -> void:
 func tween_deselect() -> void:
 	if tween:tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(sprite, "modulate", Color(0.1, 0.1, 0.1, 0.7), .4)
+	tween.tween_property(sprite, "modulate", Color(0.7, 0.7, 0.7, 0.7), .4)
 func tween_select() -> void:
 	if tween:tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)

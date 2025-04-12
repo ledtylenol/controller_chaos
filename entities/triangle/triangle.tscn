@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dcf5qgfpcro4s"]
+[gd_scene load_steps=17 format=3 uid="uid://dcf5qgfpcro4s"]
 
 [ext_resource type="Script" uid="uid://caorr1wm1p1fe" path="res://entities/triangle/triangle.gd" id="1_7sjka"]
 [ext_resource type="Texture2D" uid="uid://debqflj6lx77t" path="res://entities/triangle/triangle.png" id="2_nptun"]
@@ -53,9 +53,6 @@ bake_internal = 64
 __follow_timeline = false
 metadata/_custom_type_script = "uid://c5xmjpfeffbu8"
 
-[sub_resource type="LabelSettings" id="LabelSettings_nptun"]
-font_size = 100
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_nptun"]
 radius = 63.1269
 
@@ -84,12 +81,6 @@ metadata/_custom_type_script = "uid://o6u6b700qb7o"
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 visible = false
 polygon = PackedVector2Array(40, 0, -37, -44, -35, 42)
-
-[node name="Label" type="Label" parent="."]
-top_level = true
-offset_right = 40.0
-offset_bottom = 23.0
-label_settings = SubResource("LabelSettings_nptun")
 
 [node name="DetectionArea" type="Area2D" parent="." node_paths=PackedStringArray("target")]
 collision_layer = 3

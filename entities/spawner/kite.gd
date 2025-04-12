@@ -26,7 +26,10 @@ func _ready() -> void:
 	rot_vel = s * TAU * rot_coeff
 	sprite.rotation = rot_vel * 10
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
-	tween.tween_property(sprite, "scale", Vector2.ONE, 3.0).from(Vector2.ZERO)
+	sprite.reset_physics_interpolation()
+	sprite.scale = Vector2.ZERO
+	sprite.reset_physics_interpolation()
+	tween.tween_property(sprite, "scale", Vector2.ONE, 3.0)
 	spawn_pos = global_position
 func _physics_process(delta: float) -> void:
 	time_alive += delta * float(go)
@@ -42,8 +45,8 @@ func _physics_process(delta: float) -> void:
 		var col = move_and_collide(velocity * delta)
 		if col:
 			var b = col.get_collider()
-			if b is Triangle:
-				b.hit(self, col.get_local_shape(), null)
+			if b is Triangle or b is Player:
+				b.hit(self, col.get_local_shape(), col.get_remainder())
 				erased.emit(self)
 				return
 	else:

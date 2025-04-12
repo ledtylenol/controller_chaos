@@ -31,6 +31,7 @@ func hit(who: Entity, shape: Node2D, hit_vel :Vector2):
 				t.transform = global_transform
 				t.velocity = velocity.rotated(rot) 
 				Global.game.add_world_child(t)
+				reset_physics_interpolation()
 				prints(rot, t)
 				rot += PI
 			queue_free()
