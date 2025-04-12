@@ -13,29 +13,39 @@ texture = ExtResource("1_6y24b")
 texture = ExtResource("2_ir65p")
 script = ExtResource("3_s3n0b")
 
-[node name="VEar" type="Sprite2D" parent="."]
+[node name="VEarRight" type="Sprite2D" parent="." node_paths=PackedStringArray("rest_position")]
 position = Vector2(56, 18)
 texture = ExtResource("3_ej41n")
 script = ExtResource("3_s3n0b")
+rest_position = NodePath("../EarRightRestPosition")
 
-[node name="VEar2" type="Sprite2D" parent="."]
+[node name="VEarLeft" type="Sprite2D" parent="." node_paths=PackedStringArray("rest_position")]
 position = Vector2(56, -14)
 texture = ExtResource("3_ej41n")
 script = ExtResource("3_s3n0b")
+rest_position = NodePath("../EarLeftRestPosition")
 
-[node name="VHand" type="Sprite2D" parent="."]
+[node name="VHandRight" type="Sprite2D" parent="." node_paths=PackedStringArray("rest_position")]
 position = Vector2(-54, 30)
 rotation = -3.14159
 texture = ExtResource("4_maxcv")
 script = ExtResource("3_s3n0b")
+rest_position = NodePath("../HandRightRestPosition")
 
-[node name="VHand2" type="Sprite2D" parent="."]
+[node name="VHandLeft" type="Sprite2D" parent="." node_paths=PackedStringArray("rest_position")]
 position = Vector2(-53, -23)
 rotation = -3.14159
 texture = ExtResource("4_maxcv")
 script = ExtResource("3_s3n0b")
+rest_position = NodePath("../HandLeftRestPosition")
 
 [node name="FaceRestPosition" type="Marker2D" parent="."]
+
+[node name="EarRightRestPosition" type="Marker2D" parent="."]
+position = Vector2(44, 30)
+
+[node name="EarLeftRestPosition" type="Marker2D" parent="."]
+position = Vector2(44, -30)
 
 [node name="HandRightRestPosition" type="Marker2D" parent="."]
 position = Vector2(-41, 20)
