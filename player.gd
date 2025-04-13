@@ -131,3 +131,5 @@ func hit(who: Entity, shape: Node2D, h_v: Vector2) -> void:
 	if sprite.shaker.is_playing:
 		sprite.shaker.force_stop_shake()
 	sprite.shaker.play_shake()
+	
+	sprite.sprite_face_animator.set_eye_state_to(2)
