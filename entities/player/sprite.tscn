@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cv0p3hmk156nb"]
+[gd_scene load_steps=22 format=3 uid="uid://cv0p3hmk156nb"]
 
 [ext_resource type="Texture2D" uid="uid://d1aeblpxqmfw0" path="res://entities/player/v_body.png" id="1_6y24b"]
 [ext_resource type="Script" uid="uid://bym4ftuhn5abf" path="res://entities/player/sprite.gd" id="1_e4fnb"]
@@ -44,6 +44,34 @@ bake_internal = 64
 __follow_timeline = false
 metadata/_custom_type_script = "uid://c5xmjpfeffbu8"
 
+[sub_resource type="Animation" id="Animation_oyd08"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Face:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face:rest_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Object(Marker2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"gizmo_extents":10.0,"script":null)
+]
+}
+
 [sub_resource type="Animation" id="Animation_08chf"]
 resource_name = "ouch"
 tracks/0/type = "value"
@@ -59,8 +87,8 @@ tracks/0/keys = {
 "values": [2, 1, 0]
 }
 
-[sub_resource type="Animation" id="Animation_oyd08"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_g0ptl"]
+resource_name = "look_at"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,12 +99,27 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face:rest_position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Object(Marker2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(48, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"gizmo_extents":10.0,"script":null)
+, Object(Marker2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"gizmo_extents":10.0,"script":null)
+]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g0ptl"]
 _data = {
 &"RESET": SubResource("Animation_oyd08"),
+&"look_at": SubResource("Animation_g0ptl"),
 &"ouch": SubResource("Animation_08chf")
 }
 
@@ -192,6 +235,9 @@ position = Vector2(125, -68)
 rotation = -0.785398
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="LookAt" type="Marker2D" parent="."]
+position = Vector2(48, 0)
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 libraries = {
