@@ -8,6 +8,10 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_phkmf")
 rot_coeff = 5.0
+speed = null
+await_thres = null
+damage = null
+health = null
 metadata/_custom_type_script = "uid://bwjvl0thx0c2i"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

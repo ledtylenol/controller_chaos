@@ -27,7 +27,7 @@ collision_layer = 2
 script = ExtResource("1_i3pqv")
 speed = 7000.0
 triangle_speed = 2000.0
-distance_thres = 1000.0
+distance_thres = 500.0
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.3, 0.3)

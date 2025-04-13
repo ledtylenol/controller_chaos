@@ -28,3 +28,5 @@ position = Vector2(184, 382)
 
 [node name="Spawner" parent="." instance=ExtResource("4_7q5c5")]
 position = Vector2(74, 247)
+kite_count = null
+damage = null

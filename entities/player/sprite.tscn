@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cv0p3hmk156nb"]
+[gd_scene load_steps=21 format=3 uid="uid://cv0p3hmk156nb"]
 
 [ext_resource type="Texture2D" uid="uid://d1aeblpxqmfw0" path="res://entities/player/v_body.png" id="1_6y24b"]
 [ext_resource type="Script" uid="uid://bym4ftuhn5abf" path="res://entities/player/sprite.gd" id="1_e4fnb"]
@@ -43,6 +43,42 @@ ScaleShake = Array[ExtResource("3_euxa3")]([])
 bake_internal = 64
 __follow_timeline = false
 metadata/_custom_type_script = "uid://c5xmjpfeffbu8"
+
+[sub_resource type="Animation" id="Animation_08chf"]
+resource_name = "ouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Face:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.566667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_oyd08"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Face:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g0ptl"]
+_data = {
+&"RESET": SubResource("Animation_oyd08"),
+&"ouch": SubResource("Animation_08chf")
+}
 
 [node name="Sprite" type="Node2D"]
 script = ExtResource("1_e4fnb")
@@ -156,3 +192,10 @@ position = Vector2(125, -68)
 rotation = -0.785398
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g0ptl")
+}
+
+[node name="AnimTree" type="AnimationTree" parent="."]

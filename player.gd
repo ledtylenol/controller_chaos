@@ -76,7 +76,7 @@ func handle_minions(delta: float) -> void:
 	elif Input.is_action_pressed("interact") :
 		var mouse_pos := get_global_mouse_position()
 		for m in selected_entities.filter(is_instance_valid):
-			if m.global_position.distance_to(mouse_pos) > distance_thres:
+			if true or m.global_position.distance_to(mouse_pos) > distance_thres:
 
 				m.velocity = m.velocity.lerp(m.velocity.normalized() * triangle_speed * 2, \
 												1.0 - exp(-delta * 5))
@@ -120,7 +120,6 @@ func _input(event: InputEvent) -> void:
 		var t = TRIANGLE.instantiate()
 		t.position = get_global_mouse_position()
 		Global.game.add_world_child(t)
-		selected_entities.push_back(t)
 func initiate_drag():
 	var i := 0
 	for e in selected_entities:
@@ -159,7 +158,7 @@ func hit(who: Entity, shape: Node2D, h_v: Vector2) -> void:
 		sprite.shaker.force_stop_shake()
 	sprite.shaker.play_shake()
 
-	sprite.sprite_face_animator.set_eye_state_to(2)
+	sprite.sprite_face_animator.ouch()
 
 func on_minion_found(m: Minion) -> void:
 	if not m in selected_entities:
