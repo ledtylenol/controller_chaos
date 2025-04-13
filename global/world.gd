@@ -3,11 +3,15 @@ class_name World
 @onready var world_2d: World2DRoot = $World2D
 @onready var ui: UIRoot = $UI
 @export var world_2d_packed: PackedScene
+const tutorial = preload("res://global/tutorial.tscn")
+
 var ui_packed: PackedScene
 var player: Player
 func _enter_tree() -> void:
 	Global.game = self
-
+func _ready() -> void:
+	if not Global.save.did_tutorial:
+		change_world(tutorial)
 func change_world(new: PackedScene) -> void:
 	if world_2d_packed != new: 
 		world_2d_packed = new
@@ -19,7 +23,7 @@ func instantiate_world(sc: PackedScene) -> void:
 	world_2d.add_child(sc.instantiate())
 
 func add_world_child(c: Node) -> void:
-	world_2d.add_child(c)
+	world_2d.add_child.call_deferred(c)
 
 func change_UI(new: PackedScene) -> void:
 	for child in ui.get_children(): child.queue_free()

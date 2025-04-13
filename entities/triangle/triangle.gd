@@ -1,13 +1,19 @@
-extends Entity
+extends Minion
 class_name Triangle
 var tween: Tween
 var size := 10.0
 @export var shaker_curve: Curve
-
+@export var velocity_dist_curve: Curve
+@export var wild_min_wait := 1.0
+@export var wild_max_wait := 10.0
+@export var min_dist_away := 50.0
+@export var max_dist_away := 200.0
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var sprite_shake: ShakerComponent2D = $Sprite2D/SpriteShake
+@onready var hit_timer: Timer = $HitTimer
+@onready var move_timer: Timer = $MoveTimer
 
 var moving := false:
 	set(value):
@@ -15,6 +21,9 @@ var moving := false:
 			if value: tween_select()
 			else: tween_deselect()
 		moving = value
+var wild := true
+var spawn_pos := Vector2.ZERO
+var target_pos := Vector2.ZERO
 class Collision extends RefCounted:
 	func _init(_c: Entity, _s: Node2D, h_v: Vector2) -> void:
 		collider = _c
@@ -33,22 +42,31 @@ var selected := false:
 		selected = v
 func _ready() -> void:
 	tween_deselect()
+	spawn_pos = global_position
+	move_timer.timeout.connect(on_move_timeout)
+	move_timer.start(randf_range(wild_min_wait, wild_max_wait))
+	target_pos = global_position
 func _physics_process(delta: float) -> void:
-
 	if velocity.length() > 10.0:
 		rotation = lerp_angle(rotation, velocity.angle(), 1.0 - exp(-delta * 5))
-	if not moving:
-		velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
+	if wild:
+		var dist := global_position.distance_to(target_pos)
+		velocity = velocity.slerp(global_position.direction_to(target_pos)\
+					* velocity_dist_curve.sample(dist),\
+					1.0 - exp(-delta * 15))
+	else:
+		if not moving:
+			velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
 	sprite_shake.intensity = shaker_curve.sample(velocity.length())
 	var subdelt := delta / 5
 	var hit_cols = []
-	var avoidance_positions = detection_area.get_overlapping_areas().map(func(x): return x.global_position)
+	var avoidance_positions = Vector2.ZERO if detection_area.get_overlapping_areas().is_empty() else \
+	detection_area.get_overlapping_areas()[0].global_position.direction_to(global_position)
+	velocity = velocity.slerp((velocity.normalized() +avoidance_positions.normalized() ).normalized() * velocity.length(), \
+				1.0 - exp(-delta * 2))
+
 	for _i in 5:
-		var away_dist = Vector2.ZERO
-		for p in avoidance_positions:
-			away_dist += p.direction_to(global_position)
-			away_dist *= 0.5
-		velocity = velocity.slerp((velocity.normalized() + away_dist).normalized() * velocity.length(), 1.0 - exp(-subdelt * 5))
+
 		var col := move_and_collide(velocity * subdelt)
 		if col:
 			var collider = col.get_collider()
@@ -58,12 +76,12 @@ func _physics_process(delta: float) -> void:
 				and old_vel.length() > 200\
 				and old_vel.angle_to(global_position.direction_to(collider.global_position)) < PI/12:
 				if not collider in hit_cols.map(func(c): return c.collider):
-					print(col.get_collider_shape())
 					hit_cols.push_back(Collision.new(collider, col.get_collider_shape(), old_vel))
 	
-	
+	if hit_timer.time_left: print("TIME LEFT: %.2f" % hit_timer.time_left); return
 	for ent in hit_cols:
 		ent.collider.hit(self, ent.shape, ent.hit_vel)
+		hit_timer.start()
 func push(d: Vector2) -> void:
 	velocity += d
 	velocity = velocity.limit_length(5000.0)
@@ -88,3 +106,9 @@ func set_health(new: float) -> void:
 
 func die() -> void:
 	queue_free()
+
+func on_move_timeout() -> void:
+	move_timer.start(randf_range(wild_min_wait, wild_max_wait))
+	var th := randf_range(-PI, PI)
+	var dist := randf_range(min_dist_away, max_dist_away)
+	target_pos = spawn_pos + Vector2(cos(th), sin(th)) * dist

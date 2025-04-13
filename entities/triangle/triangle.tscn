@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcf5qgfpcro4s"]
+[gd_scene load_steps=18 format=3 uid="uid://dcf5qgfpcro4s"]
 
 [ext_resource type="Script" uid="uid://caorr1wm1p1fe" path="res://entities/triangle/triangle.gd" id="1_7sjka"]
 [ext_resource type="Texture2D" uid="uid://debqflj6lx77t" path="res://entities/triangle/triangle.png" id="2_nptun"]
@@ -12,6 +12,11 @@
 [sub_resource type="Curve" id="Curve_gk3dd"]
 _limits = [0.0, 1.0, 0.0, 5000.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(5000, 1), 0.00036131, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_m7vth"]
+_limits = [0.0, 5000.0, 0.0, 2000.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1274.42, 5000), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_7sjka"]
@@ -60,6 +65,11 @@ radius = 63.1269
 collision_layer = 2
 script = ExtResource("1_7sjka")
 shaker_curve = SubResource("Curve_gk3dd")
+velocity_dist_curve = SubResource("Curve_m7vth")
+wild_min_wait = 0.3
+wild_max_wait = 1.0
+min_dist_away = 200.0
+max_dist_away = 300.0
 metadata/_custom_type_script = "uid://caorr1wm1p1fe"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
@@ -90,3 +100,10 @@ target = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_nptun")
+
+[node name="HitTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="MoveTimer" type="Timer" parent="."]
+one_shot = true

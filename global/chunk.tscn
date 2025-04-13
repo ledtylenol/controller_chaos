@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0ax4rywhddn7"]
+
+[ext_resource type="Script" uid="uid://uydk8elm8xi3" path="res://global/chunk.gd" id="1_2j5wn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2j5wn"]
+size = Vector2(20000, 20000)
+
+[node name="Chunk" type="Area2D"]
+process_mode = 4
+visible = false
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_2j5wn")
+size = Vector2(20000, 20000)
+density = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2j5wn")

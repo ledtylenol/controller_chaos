@@ -8,8 +8,6 @@ var hp := 3
 @onready var label: Label = $Label
 
 func _physics_process(delta: float) -> void:
-	label.global_position = global_position
-	label.text = "%s" % hp
 	velocity *= 0.9
 	var col = move_and_collide(velocity * delta)
 	if col and col.get_collider() is Triangle and col.get_local_shape() == hit_poly:
@@ -20,7 +18,6 @@ func hit(who: Entity, shape: Node2D, hit_vel :Vector2):
 		who.hit(self, hit_poly, velocity)
 	elif shape == hurt_poly:
 		velocity += hit_vel
-		print(hp)
 		hp -= 1
 		if hp <= 0:
 			collision_layer = 0
@@ -32,7 +29,6 @@ func hit(who: Entity, shape: Node2D, hit_vel :Vector2):
 				t.velocity = velocity.rotated(rot) 
 				Global.game.add_world_child(t)
 				reset_physics_interpolation()
-				prints(rot, t)
 				rot += PI
 			queue_free()
 	else: print("iunno")

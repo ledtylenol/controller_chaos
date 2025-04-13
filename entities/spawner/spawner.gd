@@ -9,12 +9,14 @@ class_name Spawner
 @onready var timer: Timer = $Timer
 @onready var detection_area: Area2D = $DetectionArea
 @onready var shake: ShakerComponent2D = $Shake
+@onready var sprite: Sprite2D = $Sprite2D
 
 var k_sc = load("res://entities/spawner/kite.tscn")
 var targets: Array[Node2D] = []
 var kites: Array[Kite] = []
 var rot_vel := 0.0
 var rot_target := 0.0
+var active := true
 func _ready() -> void:
 	timer.timeout.connect(on_timeout)
 	detection_area.area_entered.connect(on_enter)
@@ -46,7 +48,7 @@ func on_timeout() -> void:
 		k.erased.connect(on_kite_erasure)
 		var dist = randf_range(dist_low, dist_high)
 		var angle = randf_range(-PI, PI)
-		k.position = position + Vector2(cos(angle) * dist, sin(angle) * dist)
+		k.position = global_position + Vector2(cos(angle) * dist, sin(angle) * dist)
 		k.rotation = randf_range(-PI, PI)
 		Global.game.add_world_child(k)
 		kites.push_back(k)
@@ -59,6 +61,8 @@ func on_kite_erasure(k: Kite) -> void:
 	Global.game.add_world_child(ghost)
 	kites.erase(k)
 	k.queue_free()
+func hit(who: Entity, shape: Node2D, h_v: Vector2) -> void:
+	health -= who.damage
 
 func on_enter(a: Area2D) -> void:
 	if a is DetectArea and not a.target in targets:
@@ -67,3 +71,22 @@ func on_enter(a: Area2D) -> void:
 func on_exit(a: Area2D) -> void:
 	if a is DetectArea and a.target in targets:
 		targets.erase(a.target)
+
+func set_health(new: float) -> void:
+	health = new
+	if health < 0 and active:
+		print("DEATH")
+		for m in kites:
+			m.on_own = true
+			on_kite_erasure(m)
+		var ghost := Ghost.new()
+		ghost.modulate.a = 0.5
+		ghost.texture = sprite.texture
+		ghost.transform = sprite.global_transform
+		Global.game.add_world_child(ghost)
+		queue_free()
+		active = false
+
+func kill_all_kites() -> void:
+	for kite in kites:
+		on_kite_erasure(kite)

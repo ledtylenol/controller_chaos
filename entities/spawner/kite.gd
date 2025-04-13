@@ -18,6 +18,7 @@ var time_alive := 0.0
 var s := 1
 var rot_vel = 0.0
 var spawn_pos := Vector2.ZERO
+var on_own := false
 func _ready() -> void:
 	if randi() % 2:
 		s = -1
@@ -36,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	sprite.rotate(-rot_vel * delta * rot_coeff)
 	rot_vel = move_toward(rot_vel, 0.0, s * rot_vel * delta * rot_coeff)
 	if target: if not time_alive > await_thres:
-		rotation = lerp_angle(rotation, global_position.angle_to_point(target.global_position), 1.0 - exp(-delta * 5))
+		rotation = lerp_angle(rotation, global_position.angle_to_point(target.global_position), 1.0 - exp(-delta * 45))
 	else:
 		if velocity.length():
 			velocity = velocity.lerp(velocity.normalized() * speed, 1.0 - exp(-delta * 5.0))
@@ -47,6 +48,9 @@ func _physics_process(delta: float) -> void:
 			var b = col.get_collider()
 			if b is Triangle or b is Player:
 				b.hit(self, col.get_local_shape(), col.get_remainder())
+				if on_own:
+					queue_free()
+					return
 				erased.emit(self)
 				return
 	else:
@@ -56,6 +60,9 @@ func _physics_process(delta: float) -> void:
 			velocity = velocity.move_toward(Vector2.ZERO, delta * 1000)
 		move_and_collide(velocity * delta)
 	if time_alive > 5 :
+		if on_own:
+			queue_free()
+			return
 		erased.emit(self)
 
 func tween_color(new: Color, duration: float) -> void:

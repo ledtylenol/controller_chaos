@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://duth6dyh2hwkj"]
+
+[ext_resource type="PackedScene" uid="uid://0dhi8fg2632o" path="res://player.tscn" id="1_0u6rw"]
+[ext_resource type="Script" uid="uid://cx6uoej73iy7h" path="res://global/tutorial.gd" id="1_qvn2k"]
+[ext_resource type="FastNoiseLite" uid="uid://d2cu7tsf21sy4" path="res://global/noise.tres" id="2_11gi7"]
+[ext_resource type="PackedScene" uid="uid://stawp8jva5fq" path="res://entities/spawner/spawner.tscn" id="2_ad3jm"]
+[ext_resource type="PackedScene" uid="uid://dcf5qgfpcro4s" path="res://entities/triangle/triangle.tscn" id="3_k2610"]
+
+[sub_resource type="Environment" id="Environment_ad3jm"]
+
+[node name="Tutorial" type="Node2D" node_paths=PackedStringArray("player")]
+script = ExtResource("1_qvn2k")
+available_rect = Rect2(0, 0, 200000, 200000)
+noise = ExtResource("2_11gi7")
+val_threshold = 0.5
+density = 1000
+player = NodePath("Player")
+
+[node name="Player" parent="." instance=ExtResource("1_0u6rw")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ad3jm")
+
+[node name="Spawner" parent="." instance=ExtResource("2_ad3jm")]
+position = Vector2(2489, 1146)
+
+[node name="Triangle" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2949, 1169)
+
+[node name="Triangle2" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2966, 331)
+
+[node name="Triangle3" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2477, 959)
+
+[node name="Triangle4" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2721, 1587)
+
+[node name="Triangle5" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-3454, 1709)
+
+[node name="Triangle6" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-3698, 854)
+
+[node name="Triangle7" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2948, 802)
+
+[node name="Triangle8" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-4152, 2582)
+
+[node name="Triangle9" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-3419, 2390)
+
+[node name="Triangle10" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2180, 2495)
+
+[node name="Triangle11" parent="." instance=ExtResource("3_k2610")]
+position = Vector2(-2128, 2076)
