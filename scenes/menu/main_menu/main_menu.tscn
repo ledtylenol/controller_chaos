@@ -21,18 +21,18 @@ script = ExtResource("1_dk276")
 
 [node name="UiButton" parent="." instance=ExtResource("1_r72xf")]
 layout_mode = 1
-offset_left = 105.0
-offset_top = 310.0
-offset_right = 199.0
-offset_bottom = 400.0
+offset_left = 98.0
+offset_top = 341.0
+offset_right = 98.0
+offset_bottom = 341.0
 tex_normal = ExtResource("2_fvlue")
 tex_hover = ExtResource("3_dk276")
 
 [node name="UiButton2" parent="." instance=ExtResource("1_r72xf")]
-offset_left = 142.0
-offset_top = 503.0
-offset_right = 142.0
-offset_bottom = 503.0
+offset_left = 101.0
+offset_top = 471.0
+offset_right = 101.0
+offset_bottom = 471.0
 tex_normal = ExtResource("5_wd51l")
 tex_hover = ExtResource("6_3tda0")
 

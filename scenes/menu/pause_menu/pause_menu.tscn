@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://pgdn5gscirky"]
+
+[ext_resource type="PackedScene" uid="uid://cr3ayxxyu47kr" path="res://scenes/menu/ui_button.tscn" id="1_bm0e0"]
+[ext_resource type="Texture2D" uid="uid://buj2f8e184sa1" path="res://scenes/menu/Start_icon_normal.png" id="2_ack0w"]
+[ext_resource type="Texture2D" uid="uid://crm72scjap32n" path="res://scenes/menu/Start_icon_hover.png" id="3_5m4u7"]
+[ext_resource type="Texture2D" uid="uid://c7fto1gj4bvgy" path="res://scenes/menu/ExitButton_normal.png" id="4_cm2vd"]
+[ext_resource type="Texture2D" uid="uid://dke25hpmbngfy" path="res://scenes/menu/ExitButton_hover.png" id="5_p82kh"]
+[ext_resource type="Texture2D" uid="uid://cxwwn0fu1cl8" path="res://scenes/menu/PauseIcon.png" id="6_cm2vd"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UiButton" parent="." instance=ExtResource("1_bm0e0")]
+offset_left = 757.0
+offset_top = 522.0
+offset_right = 757.0
+offset_bottom = 522.0
+tex_normal = ExtResource("2_ack0w")
+tex_hover = ExtResource("3_5m4u7")
+
+[node name="UiButton2" parent="." instance=ExtResource("1_bm0e0")]
+offset_left = 388.0
+offset_top = 522.0
+offset_right = 388.0
+offset_bottom = 522.0
+tex_normal = ExtResource("4_cm2vd")
+tex_hover = ExtResource("5_p82kh")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 551.0
+offset_top = 58.0
+offset_right = 701.0
+offset_bottom = 208.0
+texture = ExtResource("6_cm2vd")
