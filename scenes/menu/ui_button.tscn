@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cr3ayxxyu47kr"]
+
+[ext_resource type="Script" uid="uid://dvjppq6hpwc0w" path="res://scenes/menu/ui_button.gd" id="1_mxu45"]
+
+[node name="UiButton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_mxu45")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://d02l3xuq14jt3"]
+
+[ext_resource type="Script" uid="uid://djq1hvuahgyeh" path="res://scenes/menu/main_menu/main_menu.gd" id="1_dk276"]
+[ext_resource type="PackedScene" uid="uid://cr3ayxxyu47kr" path="res://scenes/menu/ui_button.tscn" id="1_r72xf"]
+[ext_resource type="Texture2D" uid="uid://buj2f8e184sa1" path="res://scenes/menu/Start_icon_normal.png" id="2_fvlue"]
+[ext_resource type="Texture2D" uid="uid://crm72scjap32n" path="res://scenes/menu/Start_icon_hover.png" id="3_dk276"]
+[ext_resource type="Texture2D" uid="uid://t8kt8e3yephh" path="res://scenes/menu/OptionsIcon_normal.png" id="5_wd51l"]
+[ext_resource type="Texture2D" uid="uid://cduiq1ep8dawo" path="res://scenes/menu/OptionsIcon_hover.png" id="6_3tda0"]
+[ext_resource type="Texture2D" uid="uid://bewygt3ktiewy" path="res://scenes/menu/title.png" id="7_3tda0"]
+[ext_resource type="Texture2D" uid="uid://ck8k447g8mp51" path="res://scenes/menu/Cards1.png" id="8_pqpva"]
+[ext_resource type="Texture2D" uid="uid://cg0glrlty5j6v" path="res://scenes/menu/Cards2.png" id="9_rek8k"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dk276")
+
+[node name="UiButton" parent="." instance=ExtResource("1_r72xf")]
+layout_mode = 1
+offset_left = 105.0
+offset_top = 310.0
+offset_right = 199.0
+offset_bottom = 400.0
+tex_normal = ExtResource("2_fvlue")
+tex_hover = ExtResource("3_dk276")
+
+[node name="UiButton2" parent="." instance=ExtResource("1_r72xf")]
+offset_left = 142.0
+offset_top = 503.0
+offset_right = 142.0
+offset_bottom = 503.0
+tex_normal = ExtResource("5_wd51l")
+tex_hover = ExtResource("6_3tda0")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(634, 144)
+texture = ExtResource("7_3tda0")
+hframes = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1026.0
+offset_top = 452.0
+offset_right = 1226.0
+offset_bottom = 680.0
+texture = ExtResource("8_pqpva")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 809.0
+offset_top = 452.0
+offset_right = 1009.0
+offset_bottom = 680.0
+texture = ExtResource("9_rek8k")
+
+[connection signal="pressed" from="UiButton" to="." method="_on_ui_button_pressed"]
