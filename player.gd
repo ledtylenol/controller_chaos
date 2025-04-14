@@ -1,10 +1,12 @@
 extends Entity
 class_name Player
 
+@export var homing_dist_curve: Curve
 @export var max_power := 50.0
 @export var speed := 5000.0
 @export var triangle_speed := 2500.0
 @export var distance_thres := 200.0
+@export var max_triangles := 30
 @onready var select_area: Area2D = $SelectArea
 @onready var col_shape: CollisionShape2D = $SelectArea/CollisionShape2D
 @onready var target_area: Area2D = $TargetArea
@@ -49,6 +51,7 @@ func _ready() -> void:
 	Global.game.player = self
 	convert_area.minion_found.connect(on_minion_found)
 	chunk_area.area_entered.connect(on_chunk_area)
+	$Timer.timeout.connect(func() -> void: selected_entities = selected_entities.filter(is_instance_valid))
 func _physics_process(delta: float) -> void:
 	target_area.global_position = get_global_mouse_position()
 	var dir := Input.get_vector("left", "right", "up", "down")
@@ -66,32 +69,39 @@ func handle_minions(delta: float) -> void:
 			return
 		var t_p := homing_target.global_position
 		for m in selected_entities.filter(is_instance_valid):
-			if m.global_position.distance_to(t_p) > distance_thres:
-
-				m.velocity = m.velocity.lerp(m.velocity.normalized() * triangle_speed * 2, \
-												1.0 - exp(-delta * 5))
-				m.velocity = m.velocity.slerp(m.global_position.direction_to(t_p), \
-												1.0 - exp(-delta * 10))
-				m.moving = true
+			var rand_jitter := randf_range(-PI/12, PI/12)
+			var d2: float = m.global_position.distance_to(global_position)
+			var modifier := homing_dist_curve.sample(d2)
+			m.velocity = m.velocity.slerp(\
+						m.global_position.direction_to(t_p + m.rand_offset).rotated(rand_jitter)\
+						 * triangle_speed * modifier, \
+						1.0 - exp(-delta * 10))
+			m.moving = true
 	elif Input.is_action_pressed("interact") :
 		var mouse_pos := get_global_mouse_position()
 		for m in selected_entities.filter(is_instance_valid):
-			if true or m.global_position.distance_to(mouse_pos) > distance_thres:
-
-				m.velocity = m.velocity.lerp(m.velocity.normalized() * triangle_speed * 2, \
-												1.0 - exp(-delta * 5))
-				m.velocity = m.velocity.slerp(m.global_position.direction_to(mouse_pos), \
-												1.0 - exp(-delta * 10))
+			var rand_jitter := randf_range(-PI/5, PI/5)
+			var dist: float = m.global_position.distance_to(global_position)
+			var dist2: float = m.global_position.distance_to(mouse_pos)
+			if  dist2 > distance_thres:
+				var modifier := homing_dist_curve.sample(dist)
+				m.velocity = m.velocity.slerp(\
+							m.global_position.direction_to(mouse_pos + m.rand_offset).rotated(rand_jitter)\
+							 * triangle_speed * modifier, \
+							1.0 - exp(-delta * 10))
 				m.moving = true
 			else:
 				m.moving = false
 	else:
 		for m in selected_entities.filter(is_instance_valid):
-			if m.global_position.distance_to(global_position) > distance_thres:
-				m.velocity = m.velocity.lerp(m.velocity.normalized() * triangle_speed, \
-												1.0 - exp(-delta * 5))
-				m.velocity = m.velocity.slerp(m.global_position.direction_to(global_position), \
-												1.0 - exp(-delta * 10))
+			var rand_jitter := randf_range(-PI/12, PI/12)
+			var dist: float = m.global_position.distance_to(global_position)
+			if  dist > distance_thres:
+				var modifier := homing_dist_curve.sample(dist)
+				m.velocity = m.velocity.slerp(\
+							m.global_position.direction_to(global_position + m.rand_offset).rotated(rand_jitter)\
+							 * triangle_speed * modifier, \
+							1.0 - exp(-delta * 10))
 				m.moving = true
 			else:
 				m.moving = false

@@ -37,12 +37,14 @@ func _physics_process(delta: float) -> void:
 				minion_found.emit(tr)
 
 func tween_start() -> void:
+	set_deferred("monitoring", true)
 	if tween:tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_property(self, "alpha", 0.2, 0.5)
 	sound_on.play()
 
 func tween_end() -> void:
+	set_deferred("monitoring", false)
 	if tween:tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_property(self, "alpha", 0.0, 0.5)

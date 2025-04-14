@@ -1,59 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://df8p784rq71f"]
+[gd_scene load_steps=4 format=3 uid="uid://df8p784rq71f"]
 
 [ext_resource type="Script" uid="uid://bigcesetvp1rw" path="res://entities/pentagon/pentagon.gd" id="1_8wh1s"]
-[ext_resource type="Texture2D" uid="uid://2581qjdt83hn" path="res://entities/pentagon/pentagon.png" id="2_ixoeo"]
 [ext_resource type="Texture2D" uid="uid://e8xu8afj28eq" path="res://entities/pentagon/p_body.png" id="3_mlgr3"]
-[ext_resource type="Script" uid="uid://o6u6b700qb7o" path="res://addons/shaker/src/Vector2/shaker_component2D.gd" id="3_phwg4"]
-[ext_resource type="Texture2D" uid="uid://do8jps085d8d8" path="res://entities/pentagon/p_ear.png" id="4_1r48h"]
-[ext_resource type="Script" uid="uid://cct0c3f2k6lwu" path="res://addons/shaker/data/Vector2/BaseShakerType2D.gd" id="4_jiqvo"]
-[ext_resource type="Script" uid="uid://875i05sww3b1" path="res://global/second_order_dynamics.gd" id="5_caqaw"]
-[ext_resource type="Texture2D" uid="uid://com3pjwwrlpag" path="res://entities/pentagon/p_whisker2.png" id="5_gsxhc"]
-[ext_resource type="Script" uid="uid://br152yebojmh3" path="res://addons/shaker/data/Vector2/ShakerTypeNoiseShake2D.gd" id="5_s8yco"]
-[ext_resource type="Texture2D" uid="uid://fho5p5eqr3ra" path="res://entities/pentagon/p_face.png" id="6_4yndt"]
-[ext_resource type="Script" uid="uid://cf2dgnapwlytw" path="res://addons/shaker/data/Single/BaseShakerType1D.gd" id="6_piq1x"]
-[ext_resource type="Script" uid="uid://c5xmjpfeffbu8" path="res://addons/shaker/data/Vector2/ShakerPreset2D.gd" id="7_f3tj0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ixoeo"]
 font_size = 50
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_tklte"]
-seed = 105
-frequency = 0.0124
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_041kk"]
-noise = SubResource("FastNoiseLite_tklte")
-
-[sub_resource type="Resource" id="Resource_mdsub"]
-script = ExtResource("5_s8yco")
-noise_texture = SubResource("NoiseTexture2D_041kk")
-amplitude = Vector2(10, 10)
-offset = Vector2(0, 0)
-BlendingMode = 0
-fade_in = 0.0
-fade_out = 0.0
-start_percent = 0.0
-end_percent = 1.0
-_temp_graph = false
-bake_internal = 64
-metadata/_custom_type_script = "uid://br152yebojmh3"
-
-[sub_resource type="Resource" id="Resource_xqvy0"]
-script = ExtResource("7_f3tj0")
-PositionShake = Array[ExtResource("4_jiqvo")]([SubResource("Resource_mdsub")])
-RotationShake = Array[ExtResource("6_piq1x")]([])
-ScaleShake = Array[ExtResource("4_jiqvo")]([])
-bake_internal = 64
-__follow_timeline = false
-metadata/_custom_type_script = "uid://c5xmjpfeffbu8"
 
 [node name="Pentagon" type="CharacterBody2D" node_paths=PackedStringArray("hit_poly", "hurt_poly")]
 collision_mask = 2
 script = ExtResource("1_8wh1s")
 hit_poly = NodePath("CollisionPolygon2D")
 hurt_poly = NodePath("CollisionPolygon2D2")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_ixoeo")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-1, -47, 52, 1, -3, 47)
@@ -67,71 +24,8 @@ offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_ixoeo")
 
-[node name="Sprite" type="Node2D" parent="."]
-
-[node name="ShakerComponent2D2" type="Node2D" parent="Sprite" node_paths=PackedStringArray("Targets")]
-script = ExtResource("3_phwg4")
-custom_target = true
-Targets = [NodePath("../Body"), NodePath("../EarLeft"), NodePath("../EarRight"), NodePath("../PWhisker"), NodePath("../Face")]
-randomize = true
-duration = 0.7
-fade_in = 1e-05
-fade_out = 0.554785
-shakerPreset = SubResource("Resource_xqvy0")
-metadata/_custom_type_script = "uid://o6u6b700qb7o"
-
-[node name="Body" type="Sprite2D" parent="Sprite"]
+[node name="Body" type="Sprite2D" parent="."]
 position = Vector2(9.83477e-07, -5.36442e-07)
 texture = ExtResource("3_mlgr3")
 
-[node name="SecondOrderDynamics" type="Node" parent="Sprite/Body"]
-script = ExtResource("5_caqaw")
-_f = 5.0
-_z = 0.1
-
-[node name="EarLeft" type="Sprite2D" parent="Sprite"]
-position = Vector2(57, -51)
-texture = ExtResource("4_1r48h")
-
-[node name="SecondOrderDynamics" type="Node" parent="Sprite/EarLeft"]
-script = ExtResource("5_caqaw")
-_f = 5.0
-_z = 0.1
-
-[node name="EarRight" type="Sprite2D" parent="Sprite"]
-position = Vector2(57, 51)
-texture = ExtResource("4_1r48h")
-
-[node name="SecondOrderDynamics" type="Node" parent="Sprite/EarRight"]
-script = ExtResource("5_caqaw")
-_f = 5.0
-_z = 0.1
-
-[node name="PWhisker" type="Sprite2D" parent="Sprite"]
-position = Vector2(-1.07288e-06, -9.38773e-07)
-texture = ExtResource("5_gsxhc")
-
-[node name="SecondOrderDynamics" type="Node" parent="Sprite/PWhisker"]
-script = ExtResource("5_caqaw")
-_f = 5.0
-_z = 0.1
-
-[node name="Face" type="Sprite2D" parent="Sprite"]
-position = Vector2(-1.36811e-06, -2.35438e-06)
-texture = ExtResource("6_4yndt")
-hframes = 5
-
-[node name="SecondOrderDynamics" type="Node" parent="Sprite/Face"]
-script = ExtResource("5_caqaw")
-_f = 5.0
-_z = 0.1
-
-[node name="FaceRestPosition" type="Marker2D" parent="Sprite"]
-
-[node name="EarRightRestPosition" type="Marker2D" parent="Sprite"]
-
-[node name="EarLeftRestPosition" type="Marker2D" parent="Sprite"]
-
-[node name="WhiskerRestPosition" type="Marker2D" parent="Sprite"]
-
-[node name="FaceRestPosition5" type="Marker2D" parent="Sprite"]
+[node name="Sprite" type="Node2D" parent="."]

@@ -1,10 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://0dhi8fg2632o"]
+[gd_scene load_steps=13 format=3 uid="uid://0dhi8fg2632o"]
 
 [ext_resource type="Script" uid="uid://bim6dr62vnaix" path="res://entities/player/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://d3mnbdfdxheks" path="res://player.gd" id="1_i3pqv"]
 [ext_resource type="Script" uid="uid://b8w2g7lgnkslo" path="res://entities/detect_area.gd" id="2_onrkg"]
 [ext_resource type="PackedScene" uid="uid://cv0p3hmk156nb" path="res://entities/player/sprite.tscn" id="4_hqtel"]
 [ext_resource type="Script" uid="uid://bkchd0kw3r0kg" path="res://entities/player/convert_area.gd" id="5_sweqy"]
+
+[sub_resource type="Curve" id="Curve_sweqy"]
+_limits = [0.0, 2.0, 0.0, 8000.0]
+_data = [Vector2(0, 0.364925), 0.0, 0.0, 0, 0, Vector2(893.023, 2), 0.0, 0.0, 0, 0, Vector2(8000, 0.35341), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
 
@@ -25,9 +30,10 @@ radius = 50.0
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_i3pqv")
+homing_dist_curve = SubResource("Curve_sweqy")
 speed = 7000.0
 triangle_speed = 2000.0
-distance_thres = 500.0
+distance_thres = 20.0
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(0.3, 0.3)
@@ -98,3 +104,6 @@ shape = SubResource("CircleShape2D_2hs0m")
 [node name="FPS" type="Label" parent="UI"]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

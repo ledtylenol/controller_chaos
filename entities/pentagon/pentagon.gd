@@ -24,11 +24,15 @@ func hit(who: Entity, shape: Node2D, hit_vel :Vector2):
 			collision_mask = 0
 			var rot := -PI/4
 			for i in 2:
-				var t = TRIANGLE.instantiate()
-				t.transform = global_transform
-				t.velocity = velocity.rotated(rot) 
-				Global.game.add_world_child(t)
-				reset_physics_interpolation()
-				rot += PI
+				var p := Global.game.player
+				if p.selected_entities.size() >= p.max_triangles:
+					print("TOO MANY TRIANGLES")
+				else:
+					var t = TRIANGLE.instantiate()
+					t.transform = global_transform
+					t.velocity = velocity.rotated(rot) 
+					Global.game.add_world_child(t)
+					reset_physics_interpolation()
+					rot += PI
 			queue_free()
 	else: print("iunno")

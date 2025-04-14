@@ -11,7 +11,6 @@ var size := 10.0
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var detection_area: Area2D = $DetectionArea
-@onready var sprite_shake: ShakerComponent2D = $Sprite2D/SpriteShake
 @onready var hit_timer: Timer = $HitTimer
 @onready var move_timer: Timer = $MoveTimer
 
@@ -23,6 +22,7 @@ var moving := false:
 		moving = value
 var wild := true
 var spawn_pos := Vector2.ZERO
+var rand_offset := Vector2.ZERO
 var target_pos := Vector2.ZERO
 class Collision extends RefCounted:
 	func _init(_c: Entity, _s: Node2D, h_v: Vector2) -> void:
@@ -46,6 +46,9 @@ func _ready() -> void:
 	move_timer.timeout.connect(on_move_timeout)
 	move_timer.start(randf_range(wild_min_wait, wild_max_wait))
 	target_pos = global_position
+	var th := randf_range(-PI, PI)
+	var d := randf_range(0, 300)
+	rand_offset = Vector2(cos(th) * d, sin(th) * d)
 func _physics_process(delta: float) -> void:
 	if velocity.length() > 10.0:
 		rotation = lerp_angle(rotation, velocity.angle(), 1.0 - exp(-delta * 5))
@@ -57,28 +60,20 @@ func _physics_process(delta: float) -> void:
 	else:
 		if not moving:
 			velocity = velocity.lerp(Vector2.ZERO, 1.0 - exp(-delta * 2))
-	sprite_shake.intensity = shaker_curve.sample(velocity.length())
-	var subdelt := delta / 5
 	var hit_cols = []
-	var avoidance_positions = Vector2.ZERO if detection_area.get_overlapping_areas().is_empty() else \
-	detection_area.get_overlapping_areas()[0].global_position.direction_to(global_position)
-	velocity = velocity.slerp((velocity.normalized() +avoidance_positions.normalized() ).normalized() * velocity.length(), \
-				1.0 - exp(-delta * 2))
 
-	for _i in 5:
-
-		var col := move_and_collide(velocity * subdelt)
-		if col:
-			var collider = col.get_collider()
-			var old_vel = velocity
-			velocity = velocity.bounce(col.get_normal())
-			if collider is Entity\
-				and old_vel.length() > 200\
-				and old_vel.angle_to(global_position.direction_to(collider.global_position)) < PI/12:
-				if not collider in hit_cols.map(func(c): return c.collider):
-					hit_cols.push_back(Collision.new(collider, col.get_collider_shape(), old_vel))
+	var col := move_and_collide(velocity * delta)
+	if col:
+		var collider = col.get_collider()
+		var old_vel = velocity
+		velocity = velocity.bounce(col.get_normal())
+		if collider is Entity\
+			and old_vel.length() > 200\
+			and old_vel.angle_to(global_position.direction_to(collider.global_position)) < PI/12:
+			if not collider in hit_cols.map(func(c): return c.collider):
+				hit_cols.push_back(Collision.new(collider, col.get_collider_shape(), old_vel))
 	
-	if hit_timer.time_left: print("TIME LEFT: %.2f" % hit_timer.time_left); return
+	if hit_timer.time_left: return
 	for ent in hit_cols:
 		ent.collider.hit(self, ent.shape, ent.hit_vel)
 		hit_timer.start()
