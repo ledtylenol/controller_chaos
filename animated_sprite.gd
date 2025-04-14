@@ -8,5 +8,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if rest_position:
+		if name == "Face":
+			print("AA")
 		global_position = second_order_dynamics.update(global_position, \
 		rest_position.global_position, delta)[0]
